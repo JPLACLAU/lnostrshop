@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Bitcoin Sticker #1",
+    "price": 25000,
+    "imgUrl": "bitcoin-sticker-n1.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Bitcoin Sticker #2",
+    "price": 35000,
+    "imgUrl": "bitcoin-sticker-n2.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Bitcoin Sticker #3",
+    "price": 60000,
+    "imgUrl": "bitcoin-sticker-n3.jpeg"
+  }
+]
