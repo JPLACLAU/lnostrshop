@@ -14,18 +14,17 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { closeCart, cartItems } = useShoppingCart();
   const [nodeInfo, setNodeInfo] = useState('');
   const [amount, setAmount] = useState(0);
-  const [webln, setWebln] = useState('');
   const [paymentRequest, setPaymentRequest] = useState('');
 
   async function loadRequestProvider() {
     const webln = await requestProvider();
     const nodeInfo = await webln.getInfo();
     setNodeInfo(nodeInfo.node.alias);
-    setWebln(webln);
     console.log(nodeInfo);
   }
 
   async function handleInvoice(e) {
+    const webln = await requestProvider();
     e.preventDefault();
     const invoice = await webln.makeInvoice(amount);
     console.log(invoice);
@@ -33,6 +32,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   }
 
   async function handlePayment() {
+    const webln = await requestProvider();
     await webln.sendPayment(paymentRequest);
   }
 

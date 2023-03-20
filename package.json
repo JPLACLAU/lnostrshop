@@ -1,6 +1,6 @@
 {
-  "name": "bitcoin-shopping-cart",
-  "homepage": "https://jplaclau.github.io/bitcoin-shopping-cart",
+  "name": "lnostrshop",
+  "homepage": "https://lnostrshop.jplaclau.com",
   "private": false,
   "version": "0.0.1",
   "type": "module",
