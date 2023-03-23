@@ -4,7 +4,7 @@ import { formatCurrency } from '../utilities/formatCurrency';
 import { CartItem } from './CartItem';
 import storeItems from '../data/items.json';
 import { requestProvider } from 'webln';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 type ShoppingCartProps = {
   isOpen: boolean;
@@ -23,9 +23,9 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     console.log(nodeInfo);
   }
 
-  async function handleInvoice(e) {
+  async function handleInvoice(event: any) {
     const webln = await requestProvider();
-    e.preventDefault();
+    event.preventDefault();
     const invoice = await webln.makeInvoice(amount);
     console.log(invoice);
     setPaymentRequest(invoice.paymentRequest);
@@ -63,7 +63,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
           <form onSubmit={handleInvoice}>
             <input
               type="number"
-              onChange={e => setAmount(e.target.value)}
+              onChange={e => setAmount(parseInt(e.target.value))}
               value={amount}
               required
             />{' '}
