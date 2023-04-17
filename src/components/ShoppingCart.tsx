@@ -12,6 +12,38 @@ type ShoppingCartProps = {
 };
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
+  async function prepareLNAddress() {
+    const ln = new LightningAddress('jplaclau@getalby.com');
+    await ln.fetch();
+    console.log(ln.lnurlpData);
+    console.log(ln.keysendData);
+  }
+
+  async function getAnInvoice() {
+    const ln = new LightningAddress('jplaclau@getalby.com');
+    await ln.fetch();
+    // request an invoice for 1 satoshis
+    // this returns a new `Invoice` class that can also be used to validate the payment
+    const invoice = await ln.requestInvoice({ satoshi: 1 });
+    console.log(invoice.paymentRequest); // print the payment request
+    console.log(invoice.paymentHash); // print the payment hash
+  }
+
+  async function VerifyAPayment() {
+    const ln = new LightningAddress('jplaclau@getalby.com');
+    await ln.fetch();
+    // request an invoice for 1 satoshis
+    // this returns a new `Invoice` class that can also be used to validate the payment
+    const invoice = await ln.requestInvoice({ satoshi: 1 });
+    console.log(invoice.paymentRequest); // print the payment request
+    console.log(invoice.paymentHash); // print the payment hash
+    // if the LNURL providers supports LNURL-verify:
+    const paid = await invoice.verifyPayment(); // returns true of false
+    if (paid) {
+      console.log(invoice.preimage);
+    }
+  }
+
   const { closeCart, cartItems } = useShoppingCart();
   const [nodeInfo, setNodeInfo] = useState('');
   const [amount, setAmount] = useState(0);
@@ -56,8 +88,25 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             }, 0)}
           </div>
         </Stack>
-        <div>LN buy button here </div>
         <div>
+          (LN buy button will be here in the future, for now it is just testings
+          buttons){' '}
+        </div>
+        <br />
+
+        <div>
+          <button onClick={prepareLNAddress}>prepareLN</button>
+          <br />
+          <br />
+          <button onClick={getAnInvoice}>getAnInvoice</button>
+          <br />
+          <br />
+          <button onClick={VerifyAPayment}>VerifyAPayment</button>
+          <br />
+          <br />
+          <div>
+            Here are some standard webln functions from the webln guide: <br />
+          </div>
           <button onClick={loadRequestProvider}>Connect to provider</button>
           <p> Connected to: {nodeInfo}</p>
           <h4>Create invoice</h4>
