@@ -5,6 +5,7 @@ import { CartItem } from './CartItem';
 import storeItems from '../data/items.json';
 import { requestProvider } from 'webln';
 import React, { useState } from 'react';
+import { LightningAddress } from 'alby-tools';
 
 type ShoppingCartProps = {
   isOpen: boolean;
