@@ -10,7 +10,15 @@ export const Home = () => {
       <div className="banner">
         <p>
           This app is for testing different metadata types in lightning network
-          payments
+          payments.
+        </p>
+        <p>
+          The products here are NOT REAL, neither is the shop. Do not attempt to
+          purchase anything.
+        </p>
+        <p>
+          Nothing on this site is for sale. This is a personal site for testing
+          purposes only.
         </p>
         <h1>“If only you knew the power of the Lightning Network...”</h1>
         <div className="button-container">
