@@ -499,10 +499,10 @@
   resolved "https://registry.yarnpkg.com/@webbtc/webln-types/-/webln-types-1.0.10.tgz#03e41779df6ba9bdca57635ca6b5a70c7233c8c6"
   integrity sha512-Cy9+uNqvRct3yHB+bs5hJ3idf4VEmnyKxwMpe1/lWpOXbbdi/h7GgAB1JMsnblwN74QKSBEnOPvURoA+RAG9qg==
 
-alby-tools@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/alby-tools/-/alby-tools-2.1.1.tgz#9211991460b965a98c81ac374f6ad8fbc2d385c8"
-  integrity sha512-I6pn1tXYlRZUege0WAfJVuo7uhjIm3+2qMx7JCVQulkuf0STffL9+qJNKpPeKWGdcoeGtr5wpNSrnyWa3YrUJA==
+alby-tools@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/alby-tools/-/alby-tools-2.1.2.tgz#16b7f233e7a96353000b278b773192f83a382e31"
+  integrity sha512-/GaYX4xBRfvctpc9eXPFjwTrNvrcFZZgK8+E/O0nrjB1lClGb9lrYsJcGe3XwE2bBEPszGGNSkTYxYFG/picTQ==
   dependencies:
     "@webbtc/webln-types" "^1.0.10"
     cross-fetch "^3.1.5"
