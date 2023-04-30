@@ -5,7 +5,7 @@ import { CartItem } from './CartItem';
 import storeItems from '../data/items.json';
 import { requestProvider } from 'webln';
 import React, { useState } from 'react';
-import { LightningAddress } from 'alby-tools';
+import { LightningAddress, fiat } from 'alby-tools';
 
 type ShoppingCartProps = {
   isOpen: boolean;
@@ -44,9 +44,18 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     }
   }
 
+  async function SatToUSD() {
+    const usdvalue = await fiat.getFiatValue({
+      satoshi: satamount,
+      currency: 'usd',
+    });
+    console.log(usdvalue);
+  }
+
   const { closeCart, cartItems } = useShoppingCart();
   const [nodeInfo, setNodeInfo] = useState('');
   const [amount, setAmount] = useState(0);
+  const [satamount, setsatAmount] = useState(0);
   const [paymentRequest, setPaymentRequest] = useState('');
 
   async function loadRequestProvider() {
@@ -102,6 +111,19 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
           <br />
           <br />
           <button onClick={VerifyAPayment}>VerifyAPayment</button>
+          <br />
+          <br />
+          <h4>Sats to usd</h4>
+          <form onSubmit={SatToUSD}>
+            <input
+              type="number"
+              onChange={e => setsatAmount(parseInt(e.target.value))}
+              value={satamount}
+              required
+            />{' '}
+            <br />
+            <button>Convert sats to usd</button>
+          </form>
           <br />
           <br />
           <div>
