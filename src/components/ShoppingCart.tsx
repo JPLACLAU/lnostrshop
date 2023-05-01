@@ -15,6 +15,7 @@ type ShoppingCartProps = {
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const [fiatValue, setFiatValue] = useState(0);
+  const [satsValue, setSatsValue] = useState(0);
 
   async function prepareLNAddress() {
     const ln = new LightningAddress('jplaclau@getalby.com');
@@ -79,8 +80,18 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     const fixed = fiatValue2.toFixed(2);
     setFiatValue(fixed);
   }
+
+  async function setSatsValue2() {
+    const totalamount2 = cartItems.reduce((total, cartItem) => {
+      const item = storeItems.find(i => i.id === cartItem.id);
+      return total + (item?.price || 0) * cartItem.quantity;
+    }, 0);
+    setSatsValue(totalamount2);
+  }
+
   useEffect(() => {
     setFiatValue2();
+    setSatsValue2();
   });
 
   const { closeCart, cartItems } = useShoppingCart();
@@ -120,16 +131,14 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
           ))}
 
           <div className="ms-auto fw-bold fs-5">
-            Total:{' '}
-            {cartItems.reduce((total, cartItem) => {
-              const item = storeItems.find(i => i.id === cartItem.id);
-              return total + (item?.price || 0) * cartItem.quantity;
-            }, 0)}
+            Total: {satsValue} Satoshies.
             <br />
+            <h6> ( ₿ {(satsValue * 0.000000001).toFixed(9)}BTC )</h6>
             <h6> In US dollars this is equal to ${fiatValue}USD</h6>
           </div>
         </Stack>
         <div>
+          <br />
           (LN buy button will be here in the future, for now it is just testings
           buttons){' '}
         </div>
