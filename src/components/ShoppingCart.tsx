@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import { Offcanvas, Stack } from 'react-bootstrap';
 import { useShoppingCart } from '../context/ShoppingCartContext';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { CartItem } from './CartItem';
 import storeItems from '../data/items.json';
 import { requestProvider } from 'webln';
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { LightningAddress, fiat } from 'alby-tools';
 
 type ShoppingCartProps = {
@@ -12,6 +14,8 @@ type ShoppingCartProps = {
 };
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
+  const [fiatValue, setFiatValue] = useState(0);
+
   async function prepareLNAddress() {
     const ln = new LightningAddress('jplaclau@getalby.com');
     await ln.fetch();
@@ -46,16 +50,42 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
 
   async function SatToUSD() {
     const usdvalue = await fiat.getFiatValue({
-      satoshi: satamount,
+      satoshi: 1000,
       currency: 'usd',
     });
     console.log(usdvalue);
   }
+  async function SatToUSDTotal() {
+    const totalamount = cartItems.reduce((total, cartItem) => {
+      const item = storeItems.find(i => i.id === cartItem.id);
+      return total + (item?.price || 0) * cartItem.quantity;
+    }, 0);
+    const usdvalueTotal = await fiat.getFiatValue({
+      satoshi: totalamount,
+      currency: 'usd',
+    });
+    console.log(usdvalueTotal);
+  }
+
+  async function setFiatValue2() {
+    const totalamount2 = cartItems.reduce((total, cartItem) => {
+      const item = storeItems.find(i => i.id === cartItem.id);
+      return total + (item?.price || 0) * cartItem.quantity;
+    }, 0);
+    const fiatValue2 = await fiat.getFiatValue({
+      satoshi: totalamount2,
+      currency: 'USD',
+    });
+    const fixed = fiatValue2.toFixed(2);
+    setFiatValue(fixed);
+  }
+  useEffect(() => {
+    setFiatValue2();
+  });
 
   const { closeCart, cartItems } = useShoppingCart();
   const [nodeInfo, setNodeInfo] = useState('');
   const [amount, setAmount] = useState(0);
-  const [satamount, setsatAmount] = useState(0);
   const [paymentRequest, setPaymentRequest] = useState('');
 
   async function loadRequestProvider() {
@@ -95,6 +125,8 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
               const item = storeItems.find(i => i.id === cartItem.id);
               return total + (item?.price || 0) * cartItem.quantity;
             }, 0)}
+            <br />
+            <h6> In US dollars this is equal to ${fiatValue}USD</h6>
           </div>
         </Stack>
         <div>
@@ -113,18 +145,12 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
           <button onClick={VerifyAPayment}>VerifyAPayment</button>
           <br />
           <br />
-          <h4>Sats to usd</h4>
-          <form onSubmit={SatToUSD}>
-            <input
-              type="number"
-              onChange={e => setsatAmount(parseInt(e.target.value))}
-              value={satamount}
-              required
-            />{' '}
-            <br />
-            <button>Convert sats to usd</button>
-          </form>
+          <h4>1000 Sats to usd</h4>
+          <button onClick={SatToUSD}>SatToUSD</button>
           <br />
+          <button onClick={SatToUSDTotal}>SatToUSDTotal</button>
+          <br />
+          <button onClick={setFiatValue2}>setFiatValue2</button>
           <br />
           <div>
             Here are some standard webln functions from the webln guide: <br />
