@@ -69,15 +69,15 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   }
 
   async function setFiatValue2() {
-    const totalamount2 = cartItems.reduce((total, cartItem) => {
+    const totalamount2: number = cartItems.reduce((total, cartItem) => {
       const item = storeItems.find(i => i.id === cartItem.id);
       return total + (item?.price || 0) * cartItem.quantity;
     }, 0);
-    const fiatValue2 = await fiat.getFiatValue({
+    const fiatValue2: number = await fiat.getFiatValue({
       satoshi: totalamount2,
       currency: 'USD',
     });
-    const fixed = fiatValue2.toFixed(2);
+    const fixed: number = Number(fiatValue2.toFixed(2));
     setFiatValue(fixed);
   }
 
